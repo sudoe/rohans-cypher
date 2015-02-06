@@ -10,3 +10,10 @@ ruby rohans-cypher
 
 
 
+Planned features:
+encryption and decryption by command line
+
+
+long term project goals:
+refactor as a sub class of string
+make a gem with the same functionality
