@@ -1,0 +1,12 @@
+rohans-cypher is an encryption program in pre-alpha released under GPL 3.0 Copyright (C) 2015  Jeremy Benz
+
+
+How to use this program:  (it really isn't useful yet)
+from the command line/terminal in the folder you saved rohans-cypher to enter the following commands
+
+
+ruby -v (to make sure you have ruby installed. if this errors check youtube for a tutorial)
+ruby rohans-cypher
+
+
+
