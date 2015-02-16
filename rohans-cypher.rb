@@ -21,17 +21,55 @@ p   "under certain conditions."
 
 # methods
 
-def split(string, split = true)
-    #this method takes a string and splits it into an array of strings
-    if split
-        string.split(//).each { |x|   x.ord }
-    elsif !split
-        message = ""
-        #this option joins an array of characters
-        return string.is_a?(Array) ? (string.each { |x|  message << x.chr }).join : (puts "error - tried to unsplit a string")
-    end
+def chew(string)
+    #this method takes a string and chews it into an array of strings
+    string.is_a?(String) ? ord_all(string.split(//)) : (puts "Error - chew tried to chew an array : #{string}")
 end
 
-#puts split("hello")
-puts split(split("hello"), false)
+def unchew(string)
+    #this option joins an array of characters
+    chr_all(string).join
+end
 
+def ord_all(array_of_characters)
+    array_of_ordinals = []
+    array_of_characters.size.times do |x|
+        array_of_ordinals << array_of_characters[x].ord
+    end
+    return array_of_ordinals
+end
+
+def chr_all(array_of_ordinals)
+    array_of_characters = []
+    array_of_ordinals.size.times do |x|
+        array_of_characters << array_of_ordinals[x].chr
+    end
+    return array_of_characters
+end
+    
+def digest(message, password)
+    digested_message = Array.new
+    chewed_message = chew(message)
+    chewed_password = chew(password)
+    message.size.times do |x|
+        digested_message << chewed_message[x] + chewed_password[x % password.size] # <-- allows for messages longer then password
+    end
+    return digested_message
+end
+
+def uncrypt(encrypted_array, password)
+    digested_message = Array.new
+    chewed_password = chew(password)
+    
+    encrypted_array.size.times do |x|
+        digested_message << encrypted_array[x].to_i - chewed_password[ x % password.size].to_i # <-- allows for messages longer then password
+    end
+    return unchew(digested_message)
+end
+        
+    
+    
+puts chew("hello")
+puts unchew(chew("hello"))
+puts digest("hello", "world")
+puts uncrypt(digest("hello", "world"), "world")
