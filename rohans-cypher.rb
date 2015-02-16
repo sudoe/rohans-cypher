@@ -18,97 +18,20 @@ p   "This program comes with ABSOLUTELY NO WARRANTY."
 p   "This is free software, and you are welcome to redistribute it"
 p   "under certain conditions."
 
-#methods used
-def chew(string, chew)
-    array = []
-    if chew == true
-        string.size.times do |x|
-            array << string[x].ord.to_i
-        end
-        return array
-    elsif chew == false
-        spit = []
-        string.size.times do |x|
-            spit << string[x].chr.to_s
-        end
-        return spit    
+
+# methods
+
+def split(string, split = true)
+    #this method takes a string and splits it into an array of strings
+    if split
+        string.split(//).each { |x|   x.ord }
+    elsif !split
+        message = ""
+        #this option joins an array of characters
+        return string.is_a?(Array) ? (string.each { |x|  message << x.chr }).join : (puts "error - tried to unsplit a string")
     end
 end
 
+#puts split("hello")
+puts split(split("hello"), false)
 
-def digest(message, password)
-    chewed_message = chew(message, true)
-    chewed_password = chew(password, true)
-    digested_message = []
-    frame = 0
-    message.size.times do |x|
-        frame = chewed_message[x].to_i + chewed_password[ x % password.size].to_i # <-- allows for messages longer then password
-        digested_message << frame
-    end
-    return digested_message
-end
-
-def uncrypt(message, password)
-    chewed_password = chew(password, true)
-    digested_message = []
-    frame = 0
-    message.size.times do |x|
-        frame = message[x].to_i - chewed_password[ x % password.size].to_i # <-- allows for messages longer then password
-        digested_message << frame
-        end
-    return chew(digested_message, false)
-end
-
-def feed_baby_birds(array)
-    output = ""
-    array.size.times do |x|
-        output[x] = array[x].to_s
-    end
-    return output
-end
-
-
-
-message = ""
-until message != ""
-    puts "please, enter a message you would like to encrypt"
-    message = gets.chomp
-end
-
-
-password = ""
-until password != ""
-    puts "please, enter a password"
-    password = gets.chomp
-end
-
-#chewed_message = chew(message, true)
-spit_message = chew(message, false)
-digested_message = digest(message, password)
-
-
-
-#  monolog with user
-    system('sleep 0.5')
-    system('clear')
-    puts "hamster pre-workout streching"
-    system('sleep 0.5')
-    system('clear')
-    puts "hamster in hamster wheel"
-    system('sleep 0.5')
-    system('clear')
-    print "hamster running"
-    
-    
-    
-# a curio for the lolz
-    puts "!"
-    5.times do |x|
-    
-
-        print "+"
-        system('sleep 0.5')
-    end
-    system('sleep 0.5')
-    system('clear')
-puts "was your message, '#{(feed_baby_birds(uncrypt(digested_message, password)))}'?"
