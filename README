@@ -8,6 +8,15 @@ from the command line/terminal in the folder you saved rohans-cypher to enter th
 ruby -v (to make sure you have ruby installed. if this errors check youtube for a tutorial)
 ruby rohans-cypher
 
+--encrypt <message> <encryption key>
+--decrypt <message> <encryption key>
+
+
+message and encryption key should have 'marks' around them
+for troubleshooting add -V as the second argument
+IE
+--encrypt -V <message> <encryption key>
+
 
 
 Planned features:
@@ -15,5 +24,6 @@ encryption and decryption by command line
 
 
 long term project goals:
+
 refactor as a sub class of string
 make a gem with the same functionality

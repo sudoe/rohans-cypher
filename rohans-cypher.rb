@@ -17,13 +17,25 @@ p   "rohans-cypher  Copyright (C) 2015  Jeremy Benz"
 p   "This program comes with ABSOLUTELY NO WARRANTY."
 p   "This is free software, and you are welcome to redistribute it"
 p   "under certain conditions."
-
-message = ARGV[1]
-password = ARGV[2]
-option = ARGV[0]
+encrypted_message = Array.new
+perams = ARGV
 
 # methods
 
+def help_page
+    puts "This program takes the following arguments from the command line"
+    puts ""
+    puts ""
+    puts "--encrypt <message> <encryption key>"
+    puts "--decrypt <message> <encryption key>"
+    puts ""
+    puts ""
+    puts "message and encryption key should have 'marks' around them"
+    puts "for troubleshooting add -V as the second argument"
+    puts "IE"
+    puts "--encrypt -V <message> <encryption key>"
+end
+   
 def chew(string)
     #this method takes a string and chews it into an array of strings
     string.is_a?(String) ? ord_all(string.split(//)) : (puts "Error - chew tried to chew an array : #{string}")
@@ -70,28 +82,33 @@ def uncrypt(encrypted_array, password)
     return unchew(digested_message)
 end
 
-def main(*ARGV)
+def main
+    puts "calling main"
+    if !perams
+        puts help_page
+        return
+    end
     if ARGV[0][0..1] == "--"
-        #add command line switches
-        
-        #to open a file
-        system('touch message')
-        encrypted_message = File.open("message", "r+") do |file|
-            file.puts digest(message, password)
+        if ARGV[0] == "--encrypt"
+            if ARGV[1] != "-V"
+                if ARGV[1].is_a?(String) && ARGV[2].is_a?(String)
+                    puts digest(ARGV[1], ARGV[2])
+                else
+                    puts help_page
+                end
+            end
         end
-    else
-        #puts help file
     end
 end
         
         
 
-
+main
 # puts digest(message, password)
 # puts chew("hello")
 # puts unchew(chew("hello"))
 # puts digest("hello", "world")
 # puts uncrypt(digest(message, password), password)
 
-puts encrypted_message.class
-puts encrypted_message.methods.sort
+#puts encrypted_message.class
+#puts encrypted_message.methods.sort
