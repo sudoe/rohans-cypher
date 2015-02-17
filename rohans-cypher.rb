@@ -18,6 +18,9 @@ p   "This program comes with ABSOLUTELY NO WARRANTY."
 p   "This is free software, and you are welcome to redistribute it"
 p   "under certain conditions."
 
+message = ARGV[1]
+password = ARGV[2]
+option = ARGV[0]
 
 # methods
 
@@ -52,7 +55,7 @@ def digest(message, password)
     chewed_message = chew(message)
     chewed_password = chew(password)
     message.size.times do |x|
-        digested_message << chewed_message[x] + chewed_password[x % password.size] # <-- allows for messages longer then password
+        digested_message << chewed_message[x] * chewed_password[x % password.size] # <-- allows for messages longer then password
     end
     return digested_message
 end
@@ -62,14 +65,33 @@ def uncrypt(encrypted_array, password)
     chewed_password = chew(password)
     
     encrypted_array.size.times do |x|
-        digested_message << encrypted_array[x].to_i - chewed_password[ x % password.size].to_i # <-- allows for messages longer then password
+        digested_message << encrypted_array[x].to_i / chewed_password[ x % password.size].to_i # <-- allows for messages longer then password
     end
     return unchew(digested_message)
 end
+
+def main(*ARGV)
+    if ARGV[0][0..1] == "--"
+        #add command line switches
         
-    
-    
-puts chew("hello")
-puts unchew(chew("hello"))
-puts digest("hello", "world")
-puts uncrypt(digest("hello", "world"), "world")
+        #to open a file
+        system('touch message')
+        encrypted_message = File.open("message", "r+") do |file|
+            file.puts digest(message, password)
+        end
+    else
+        #puts help file
+    end
+end
+        
+        
+
+
+# puts digest(message, password)
+# puts chew("hello")
+# puts unchew(chew("hello"))
+# puts digest("hello", "world")
+# puts uncrypt(digest(message, password), password)
+
+puts encrypted_message.class
+puts encrypted_message.methods.sort
