@@ -47,7 +47,7 @@ def unchew(string)
 end
 
 def ord_all(array_of_characters)
-    array_of_ordinals = []
+    array_of_ordinals = Array.new
     array_of_characters.size.times do |x|
         array_of_ordinals << array_of_characters[x].ord
     end
@@ -72,7 +72,7 @@ def digest(message, password)
     return digested_message
 end
 
-def uncrypt(encrypted_array, password)
+def vomit(encrypted_array, password)
     digested_message = Array.new
     chewed_password = chew(password)
     
@@ -82,33 +82,85 @@ def uncrypt(encrypted_array, password)
     return unchew(digested_message)
 end
 
-def main
-    puts "calling main"
-    if !perams
-        puts help_page
-        return
+def digest_verbose(message, password)
+    digested_message = Array.new
+    puts "chewed_message"
+    puts chewed_message = chew(message)
+    puts "chewed_password"
+    puts chewed_password = chew(password)
+    puts "digesting now"
+    message.size.times do |x|
+        puts digested_message << chewed_message[x] * chewed_password[x % password.size] # <-- allows for messages longer then password
     end
-    if ARGV[0][0..1] == "--"
-        if ARGV[0] == "--encrypt"
-            if ARGV[1] != "-V"
-                if ARGV[1].is_a?(String) && ARGV[2].is_a?(String)
-                    puts digest(ARGV[1], ARGV[2])
-                else
-                    puts help_page
-                end
+    chewed_message = chew(message)
+    chewed_password = chew(password)
+    message.size.times do |x|
+        digested_message << chewed_message[x] * chewed_password[x % password.size] # <-- allows for messages longer then password
+    end
+    return digested_message
+end
+
+def vomit_verbose(encrypted_array, password)
+    puts encrypted_array
+    digested_message = Array.new
+    puts "chewed_password"
+    puts chewed_password = chew(password)
+    puts "vomiting"
+    #encrypted_array.size.times do |x|
+    #    puts digested_message << encrypted_array[x].to_i / chewed_password[ x % password.size].to_i # <-- allows for messages longer then password
+    # end
+    digested_message = Array.new
+    chewed_password = chew(password)
+    
+    encrypted_array.size.times do |x|
+        digested_message << encrypted_array[x].to_i / chewed_password[ x % password.size].to_i # <-- allows for messages longer then password
+    end
+    return unchew(digested_message)
+end
+
+
+def main
+    if ARGV[0] == "--encrypt" #encrypt selector specified at command line
+        if ARGV[1] == "-V" #verbose mode
+            if ARGV[2].is_a?(String) && ARGV[3].is_a?(String)
+                puts digest_verbose(ARGV[2], ARGV[3])
+            else
+                puts help_page
+            end
+        else
+            if ARGV[1].is_a?(String) && ARGV[2].is_a?(String)
+                puts digest(ARGV[1], ARGV[2])
+            else
+                puts help_page
+            end
+
+        end
+    elsif ARGV[0] == "--decrypt" #decrypt selector specified at command line
+        if ARGV[1] == "-V" # verbose mode
+            if ARGV[2].is_a?(String) && ARGV[3].is_a?(String)
+                puts vomit_verbose(ARGV[2], ARGV[3])
+            else
+                puts help_page
+            end
+        else
+            if ARGV[1].is_a?(String) && ARGV[2].is_a?(String)
+                puts vomit(ARGV[1], ARGV[2])
+            else
+                puts help_page
             end
         end
+    else
+        puts help_page
     end
 end
-        
-        
+
 
 main
 # puts digest(message, password)
 # puts chew("hello")
 # puts unchew(chew("hello"))
 # puts digest("hello", "world")
-# puts uncrypt(digest(message, password), password)
+# puts vomit(digest(message, password), password)
 
 #puts encrypted_message.class
 #puts encrypted_message.methods.sort
