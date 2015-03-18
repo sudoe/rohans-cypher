@@ -130,6 +130,8 @@ def main
         else
             if ARGV[1].is_a?(String) && ARGV[2].is_a?(String)
                 puts digest(ARGV[1], ARGV[2])
+                
+                @@encrypted_message = digest(ARGV[1], ARGV[2])  #take out this line !!delete!!
             else
                 puts help_page
             end
@@ -144,7 +146,7 @@ def main
             end
         else
             if ARGV[1].is_a?(String) && ARGV[2].is_a?(String)
-                puts vomit(ARGV[1], ARGV[2])
+                puts vomit(ARGV[1].to_a, ARGV[2])
             else
                 puts help_page
             end
@@ -156,6 +158,8 @@ end
 
 
 main
+
+puts vomit(@@encrypted_message, ARGV[2])   #just testing this stuff  !!delete!!
 # puts digest(message, password)
 # puts chew("hello")
 # puts unchew(chew("hello"))
