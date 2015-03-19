@@ -21,6 +21,7 @@ IE
 
 Planned features:
 encryption and decryption by command line
+encryption by command line working, decryption broken.  (something to do with outputing an array, and getting a string back)
 
 
 long term project goals:

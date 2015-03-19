@@ -17,8 +17,8 @@ p   "rohans-cypher  Copyright (C) 2015  Jeremy Benz"
 p   "This program comes with ABSOLUTELY NO WARRANTY."
 p   "This is free software, and you are welcome to redistribute it"
 p   "under certain conditions."
-encrypted_message = Array.new
-perams = ARGV
+
+
 
 # methods
 
@@ -72,10 +72,10 @@ def digest(message, password)
     return digested_message
 end
 
-def vomit(encrypted_array, password)
+def vomit(encrypted_string, password)
     digested_message = Array.new
     chewed_password = chew(password)
-    
+    encrypted_array = encrypted_string.to_a.to_i
     encrypted_array.size.times do |x|
         digested_message << encrypted_array[x].to_i / chewed_password[ x % password.size].to_i # <-- allows for messages longer then password
     end
@@ -103,6 +103,7 @@ end
 def vomit_verbose(encrypted_array, password)
     puts encrypted_array
     digested_message = Array.new
+    encrypted_array = encrypted_string.to_a.to_i
     puts "chewed_password"
     puts chewed_password = chew(password)
     puts "vomiting"
@@ -146,7 +147,7 @@ def main
             end
         else
             if ARGV[1].is_a?(String) && ARGV[2].is_a?(String)
-                puts vomit(ARGV[1].to_a, ARGV[2])
+                puts vomit(ARGV[1], ARGV[2])
             else
                 puts help_page
             end
@@ -157,14 +158,22 @@ def main
 end
 
 
-main
+#  main  # commented out for testing purposes
 
-puts vomit(@@encrypted_message, ARGV[2])   #just testing this stuff  !!delete!!
-# puts digest(message, password)
-# puts chew("hello")
-# puts unchew(chew("hello"))
-# puts digest("hello", "world")
-# puts vomit(digest(message, password), password)
+message = "stuff and things"
+password = "mayhem and killing"
 
-#puts encrypted_message.class
-#puts encrypted_message.methods.sort
+
+encrypted_message = digest(message, password)
+print encrypted_message
+puts ""
+
+print encrypted_message.to_s
+encrypted_message = encrypted_message.to_s
+puts ""
+
+array_ord = encrypted_message.split(',').each {|x| x.to_i}
+print array_ord
+puts ""
+puts "oeu"
+puts vomit(array_ord, password)   #just testing this stuff  !!delete!!
