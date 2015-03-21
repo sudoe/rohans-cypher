@@ -38,7 +38,7 @@ end
    
 def chew(string)
     #this method takes a string and chews it into an array of strings
-    string.is_a?(String) ? ord_all(string.split(//)) : (puts "Error - chew tried to chew an array : #{string}")
+    ord_all(string.split(//))
 end
 
 def unchew(string)
@@ -75,9 +75,9 @@ end
 def vomit(encrypted_string, password)
     digested_message = Array.new
     chewed_password = chew(password)
-    encrypted_array = encrypted_string.to_a.to_i
+    encrypted_array = encrypted_string.split(',').map {|x| x.to_i}
     encrypted_array.size.times do |x|
-        digested_message << encrypted_array[x].to_i / chewed_password[ x % password.size].to_i # <-- allows for messages longer then password
+    digested_message << encrypted_array[x].to_i / chewed_password[ x % password.size].to_i # <-- allows for messages longer then password
     end
     return unchew(digested_message)
 end
@@ -103,7 +103,7 @@ end
 def vomit_verbose(encrypted_array, password)
     puts encrypted_array
     digested_message = Array.new
-    encrypted_array = encrypted_string.to_a.to_i
+    encrypted_array = encrypted_string.split(',').map {|x| x.to_i}
     puts "chewed_password"
     puts chewed_password = chew(password)
     puts "vomiting"
@@ -124,15 +124,13 @@ def main
     if ARGV[0] == "--encrypt" #encrypt selector specified at command line
         if ARGV[1] == "-V" #verbose mode
             if ARGV[2].is_a?(String) && ARGV[3].is_a?(String)
-                puts digest_verbose(ARGV[2], ARGV[3])
+                print digest_verbose(ARGV[2], ARGV[3])
             else
                 puts help_page
             end
         else
             if ARGV[1].is_a?(String) && ARGV[2].is_a?(String)
-                puts digest(ARGV[1], ARGV[2])
-                
-                @@encrypted_message = digest(ARGV[1], ARGV[2])  #take out this line !!delete!!
+                print digest(ARGV[1], ARGV[2])
             else
                 puts help_page
             end
@@ -158,10 +156,13 @@ def main
 end
 
 
-#  main  # commented out for testing purposes
+main
 
-message = "stuff and things"
-password = "mayhem and killing"
+
+__END__
+## stuff I use for testing experimental !!!delete!!!
+message = "message"
+password = "z"
 
 
 encrypted_message = digest(message, password)
@@ -171,9 +172,4 @@ puts ""
 print encrypted_message.to_s
 encrypted_message = encrypted_message.to_s
 puts ""
-
-array_ord = encrypted_message.split(',').each {|x| x.to_i}
-print array_ord
-puts ""
-puts "oeu"
-puts vomit(array_ord, password)   #just testing this stuff  !!delete!!
+puts vomit(encrypted_message, password)   #just testing this stuff  !!delete!!
